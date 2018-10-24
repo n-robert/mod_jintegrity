@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.0" client="administrator" method="upgrade">
+    <name>Joomla Core Integrity Module by Robert N.</name>
+    <author>Robert N.</author>
+    <creationDate>Oct 2018</creationDate>
+    <copyright>© Robert N. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later.</license>
+    <version>1.0</version>
+    <description>MOD_JINTEGRITY_XML_DESCRIPTION</description>
+    <files>
+        <filename module="mod_jintegrity">mod_jintegrity.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_jintegrity.xml</filename>
+        <folder>assets</folder>
+        <folder>crc32</folder>
+        <folder>tmpl</folder>
+    </files>
+    <languages>
+        <language tag="ru-RU">language/ru-RU/ru-RU.mod_jintegrity.ini</language>
+        <language tag="ru-RU">language/ru-RU/ru-RU.mod_jintegrity.sys.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_jintegrity.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_jintegrity.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="ajax"
+                        type="checkbox"
+                        label="MOD_JINTEGRITY_AJAX_LABEL"
+                        description="MOD_JINTEGRITY_AJAX_DESC"
+                        value="false"
+                        />
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="moduleclass_sfx"
+                        type="text"
+                        label="MOD_JINTEGRITY_MODULECLASS_SFX_LABEL"
+                        description="MOD_JINTEGRITY_MODULECLASS_SFX_DESC"
+                        />
+                <field
+                        name="cache"
+                        type="list"
+                        default="1"
+                        label="MOD_JINTEGRITY_CACHING_LABEL"
+                        description="MOD_JINTEGRITY_CACHING_DESC">
+                    <option
+                            value="1">JGLOBAL_USE_GLOBAL
+                    </option>
+                    <option
+                            value="0">MOD_JINTEGRITY_NOCACHING
+                    </option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
