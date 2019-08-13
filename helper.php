@@ -20,9 +20,9 @@ class ModJintegrityHelper
         $files = [];
         $dir = dir($directory);
 
-        while (false !== ($file = $dir->read()) && false === strpos($file, 'installation'))
+        while (false !== ($file = $dir->read()))
         {
-            if ($file != '.' and $file != '..')
+            if ($file != '.' && $file != '..' && false === strpos($file, 'installation'))
             {
                 if (is_dir($directory . '/' . $file))
                 {
