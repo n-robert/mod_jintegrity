@@ -18,9 +18,9 @@ class ModJintegrityHelper
         }
 
         $files = [];
-        $dir_handle = dir($directory);
+        $dir = dir($directory);
 
-        while (false !== ($file = $dir_handle->read()))
+        while (false !== ($file = $dir->read()))
         {
             if ($file != '.' && $file != '..' && false === strpos($file, 'installation'))
             {
@@ -35,7 +35,7 @@ class ModJintegrityHelper
             }
         }
 
-        $dir_handle->close();
+        $dir->close();
 
         return $files;
     }
