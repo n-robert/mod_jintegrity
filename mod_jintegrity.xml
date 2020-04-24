@@ -31,7 +31,7 @@
                         label="MOD_JINTEGRITY_AJAX_LABEL"
                         description="MOD_JINTEGRITY_AJAX_DESC"
                         value="false"
-                        />
+                />
             </fieldset>
             <fieldset name="advanced">
                 <field
@@ -39,7 +39,7 @@
                         type="text"
                         label="MOD_JINTEGRITY_MODULECLASS_SFX_LABEL"
                         description="MOD_JINTEGRITY_MODULECLASS_SFX_DESC"
-                        />
+                />
                 <field
                         name="cache"
                         type="list"

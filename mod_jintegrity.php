@@ -1,6 +1,6 @@
 <?php
 /**
- * @package  	mod_jintegrity
+ * @package    mod_jintegrity
  *
  * @copyright   © Robert N. All rights reserved.
  * @license     GNU General Public License version 2 or later.
