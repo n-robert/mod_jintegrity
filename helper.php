@@ -94,7 +94,7 @@ class ModJintegrityHelper
             {
                 if (isset($test[$key]) && $test[$key] !== $value)
                 {
-                    $changes[] = $new_path . ' (' . $value . ')';
+                    $changes[] = $new_path . JText::sprintf('MOD_JINTEGRITY_CHECKSUM', $value);
                 }
             }
         }
