@@ -54,7 +54,6 @@ $use_ajax = $params->get('ajax', 0);
     <?php
     if ($use_ajax) {
         $doc = JFactory::getDocument();
-        $doc->addScriptDeclaration('var jintegrity_url = "' . JUri::current() . '"');
         $doc->addScript(JUri::root(true) . '/administrator/modules/mod_jintegrity/assets/js/mod_jintegrity.js');
         ?>
         <div class="ajax-loader" style="display: none;">
