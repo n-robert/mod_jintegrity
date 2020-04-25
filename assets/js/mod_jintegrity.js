@@ -1,20 +1,19 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const
-        checkForm = document.getElementById('jintegrity-check'),
-        modulePage = document.querySelector('.jintegrity'),
-        infoPage = modulePage.querySelector('.info-page'),
-        ajaxLoader = modulePage.querySelector('.ajax-loader'),
-        submitButton = document.getElementById('jintegrity-submit'),
-        xhr = new XMLHttpRequest(),
-        formData = new FormData(checkForm)
-    ;
-
-    checkForm.addEventListener('submit', (e) => {
+document.addEventListener('click', (e) => {
+    if (e.target && e.target.id == 'jintegrity-submit') {
         e.preventDefault();
+
+        const
+            checkForm = document.getElementById('jintegrity-check'),
+            modulePage = document.querySelector('.jintegrity'),
+            infoPage = modulePage.querySelector('.info-page'),
+            ajaxLoader = modulePage.querySelector('.ajax-loader'),
+            xhr = new XMLHttpRequest(),
+            formData = new FormData(checkForm)
+        ;
 
         infoPage.innerHTML = '';
         ajaxLoader.style.display = 'block';
-        submitButton.style.display = 'none';
+        e.target.style.display = 'none';
 
         xhr.responseType = 'document';
         xhr.open('POST', document.location);
@@ -22,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (xhr.status >= 200 && xhr.status < 400) {
                 modulePage.innerHTML = xhr.response.querySelector('.jintegrity').innerHTML;
                 ajaxLoader.style.display = 'none';
-                submitButton.style.display = 'block';
+                e.target.style.display = 'block';
                 console.log('OK');
             }
         };
         xhr.send(formData);
-    });
+    }
 });
