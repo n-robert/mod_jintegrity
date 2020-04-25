@@ -40,10 +40,10 @@ class ModJintegrityHelper
         return $files;
     }
 
-    public static function saveHash($source, $file, $tmp_zip, $tmp_dir)
+    public static function saveHash($source, $hash, $tmp_zip, $tmp_dir)
     {
-        $is_url = filter_var($source, FILTER_VALIDATE_URL);
         $is_zip = (is_file($source) && pathinfo($source, PATHINFO_EXTENSION) == 'zip');
+        $is_url = filter_var($source, FILTER_VALIDATE_URL);
 
 
         if ($is_zip)
@@ -59,9 +59,7 @@ class ModJintegrityHelper
 
         try
         {
-            $result = file_put_contents($file, json_encode(self::getHash($source)));
-
-            if ($result && $is_url)
+            if ($result = file_put_contents($hash, json_encode(self::getHash($source))))
             {
                 JFolder::delete($source);
 //				self::delete_dir($source);
@@ -107,11 +105,8 @@ class ModJintegrityHelper
     public static function getResult($test, $package)
     {
         $test = self::getHash($test);
-        $package = is_dir($package) ?
-            self::getHash($package) :
-            is_file($package) ?
-                json_decode(file_get_contents($package), true) :
-                [];
+        $package = is_dir($package) ? self::getHash($package) :
+            (is_file($package) ? json_decode(file_get_contents($package), true) : []);
         $changes = self::getChanges($test, $package);
 
         if (!empty($changes))
@@ -132,11 +127,11 @@ class ModJintegrityHelper
         return $result;
     }
 
-    public static function downloadPackage($url, $file_name, $folder)
+    public static function downloadPackage($url, $tmp_zip, $tmp_dir)
     {
         try
         {
-            $file = fopen($file_name, 'w+');
+            $file = fopen($tmp_zip, 'w+');
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_FILE, $file);
@@ -148,7 +143,7 @@ class ModJintegrityHelper
             curl_close($ch);
             fclose($file);
 
-            $result = self::unzipPackage($file_name, $folder);
+            $result = self::unzipPackage($tmp_zip, $tmp_dir);
         }
         catch (Exception $e)
         {
@@ -158,23 +153,23 @@ class ModJintegrityHelper
         return $result;
     }
 
-    public static function unzipPackage($file_name, $folder, $unlink = true)
+    public static function unzipPackage($source, $tmp_dir, $unlink = true)
     {
         try
         {
             @set_time_limit(ini_get('max_execution_time'));
             $zip = new JArchiveZip;
 
-            if (!is_dir($folder))
+            if (!is_dir($tmp_dir))
             {
-                mkdir($folder);
+                mkdir($tmp_dir);
             }
 
-            if ($result = $zip->extract($file_name, $folder))
+            if ($result = $zip->extract($source, $tmp_dir))
             {
                 if ($unlink)
                 {
-                    unlink($file_name);
+                    unlink($source);
                 }
             }
         }

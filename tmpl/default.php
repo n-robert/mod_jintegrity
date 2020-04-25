@@ -14,9 +14,9 @@ $jinput = JFactory::getApplication()->input;
 $crc_dir = JPATH_ROOT . '/administrator/modules/mod_jintegrity/crc32/';
 $version = str_replace('.', '-', JVERSION);
 $extension = '.json';
-$package = $crc_dir . $version . $extension;
-$input_name = !is_file($package) ? 'jintegrity_download' : 'jintegrity_check';
-$submit_value = !is_file($package) ? 'MOD_JINTEGRITY_GET_HASHES_SUBMIT' : 'MOD_JINTEGRITY_CHECK_SUBMIT';
+$hash = $crc_dir . $version . $extension;
+$input_name = !is_file($hash) ? 'jintegrity_download' : 'jintegrity_check';
+$submit_value = !is_file($hash) ? 'MOD_JINTEGRITY_GET_HASHES_SUBMIT' : 'MOD_JINTEGRITY_CHECK_SUBMIT';
 $use_ajax = $params->get('ajax', 0);
 ?>
 <div class="jintegrity">
@@ -25,18 +25,18 @@ $use_ajax = $params->get('ajax', 0);
         <?php
         $text = '';
 
-        if (!is_file($package)) {
+        if (!is_file($hash)) {
             $text = JText::_('MOD_JINTEGRITY_NO_PACKAGE_HASHES');
         }
 
         if ($jinput->get('jintegrity_download')) {
-            $file = 'Joomla_' . JVERSION . '-Stable-Full_Package.zip';
-            $url = 'https://downloads.joomla.org/cms/joomla3/' . $version . '/' . $file . '?format=zip';
-            $tmp_zip = $crc_dir . 'tmp.zip';
+            $package = 'Joomla_' . JVERSION . '-Stable-Full_Package.zip';
+            $url = 'https://downloads.joomla.org/cms/joomla3/' . $version . '/' . $package . '?format=zip';
+            $tmp_zip = $crc_dir . $package;
             $tmp_dir = $crc_dir . 'tmp_dir';
-            $source = is_file($crc_dir . $file) ? ($crc_dir . $file) : $url;
+            $source = is_file($tmp_zip) ? $tmp_zip : $url;
 
-            if (ModJintegrityHelper::saveHash($source, $package, $tmp_zip, $tmp_dir)) {
+            if (ModJintegrityHelper::saveHash($source, $hash, $tmp_zip, $tmp_dir)) {
                 $text = JText::_('MOD_JINTEGRITY_PACKAGE_READY');
                 $input_name = 'jintegrity_check';
                 $submit_value = 'MOD_JINTEGRITY_CHECK_SUBMIT';
@@ -44,7 +44,7 @@ $use_ajax = $params->get('ajax', 0);
         }
 
         if ($jinput->get('jintegrity_check')) {
-            $text = ModJintegrityHelper::getResult(JPATH_ROOT, $package);
+            $text = ModJintegrityHelper::getResult(JPATH_ROOT, $hash);
         }
 
         echo $text;
