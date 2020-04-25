@@ -1,3 +1,4 @@
+
 document.addEventListener('click', (e) => {
     if (e.target && e.target.id == 'jintegrity-submit') {
         e.preventDefault();
